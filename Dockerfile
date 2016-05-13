@@ -33,8 +33,12 @@ RUN apt-get update && \
         pciutils \
         sudo
 
-COPY files/zabbix-agent_2.2.7+dfsg-1.1_amd64.deb /root/
-RUN dpkg -i /root/zabbix-agent_2.2.7+dfsg-1.1_amd64.deb
+RUN \
+  curl -O http://repo.zabbix.com/zabbix/3.0/debian/pool/main/z/zabbix-release/zabbix-release_3.0-1+jessie_all.deb && \
+  dpkg -i zabbix-release_3.0-1+jessie_all.deb && \
+  apt-get update && \
+  apt-get install -y zabbix-agent
+
 COPY etc/zabbix/ /etc/zabbix/
 
 RUN mkdir -p /var/lib/zabbix && \
